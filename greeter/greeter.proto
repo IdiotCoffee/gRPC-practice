@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package = "github.com/idiotcoffee/gRPC-learning/greeter";
+
+package greeter;
+
+
+service GreetPerson {
+    rpc SayHi(HelloRequest) returns (HelloResponse) {};
+}
+
+message HelloRequest {
+    string name = 1;
+    int32 age = 2;
+}
+
+message HelloResponse {
+    string welcome_msg = 1;
+}
+
+/*
+protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    greeter/greeter.proto
+*/
