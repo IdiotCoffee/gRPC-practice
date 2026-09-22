@@ -91,4 +91,30 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Printf("Points received: %d", summary.PointCount)
+
+	// bi-directional
+	chatStream, err := client.RouteChat(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = chatStream.Send(&pb.RouteNote{
+		Location: &pb.Point{
+			Latitude:  1,
+			Longitude: 2,
+		},
+		Message: "Hello from client",
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	note, err := chatStream.Recv()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Server replied: %s", note.Message)
+
+	chatStream.CloseSend()
 }
