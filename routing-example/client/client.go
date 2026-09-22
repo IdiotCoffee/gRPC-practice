@@ -67,4 +67,28 @@ func main() {
 			feature.Location.Longitude,
 		)
 	}
+
+	recordStream, err := client.RecordRoute(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	recordStream.Send(&pb.Point{
+		Latitude:  1,
+		Longitude: 2,
+	})
+
+	recordStream.Send(&pb.Point{
+		Latitude:  3,
+		Longitude: 4,
+	})
+	recordStream.Send(&pb.Point{
+		Latitude:  5,
+		Longitude: 6,
+	})
+
+	summary, err := recordStream.CloseAndRecv()
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Points received: %d", summary.PointCount)
 }
