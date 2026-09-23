@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+service HelloSayer {
+    rpc SpeakPersonDetails(InputInfo) returns(OutputStatement);
+}
+
+message InputInfo {
+    string name = 1;
+    int32 age = 2;
+    bool is_married = 3;
+    int64 salary = 4;
+}
+
+message OutputStatement {
+    string introduction = 1;
+    string other_info = 2;
+}
+/*
+python -m grpc_tools.protoc \
+    -I. \
+    --python_out=. \
+    --grpc_python_out=. \
+    hello.proto
+*/
